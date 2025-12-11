@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* KIND HOME: Warm Mode (Creamy Sand & Warm Taupe) */
+    /* Matches PROJECT-SOURCE-OF-TRUTH.md */
+    --background: 45 88% 84%;
+    --foreground: 31 13% 32%;
+
+    --card: 45 87% 88%;
+    --card-foreground: 31 13% 32%;
+
+    --popover: 45 87% 88%;
+    --popover-foreground: 31 13% 32%;
+
+    --primary: 10 19% 56%;
+    --primary-foreground: 45 100% 97%;
+
+    --secondary: 82 30% 76%;
+    --secondary-foreground: 31 13% 32%;
+
+    --muted: 35 26% 80%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 30 87% 76%;
+    --accent-foreground: 31 13% 32%;
+
+    --destructive: 0 63% 42%;
+    --destructive-foreground: 45 100% 97%;
+
+    --border: 35 27% 72%;
+    --input: 35 27% 78%;
+    --ring: 10 19% 56%;
+
+    --radius: 0.9rem;
+  }
+
+  .dark {
+    /* KIND HOME: Soft Dusk Mode */
+    --background: 222 41% 12%;
+    --foreground: 40 30% 88%;
+
+    --card: 220 33% 16%;
+    --card-foreground: 40 30% 88%;
+
+    --popover: 220 33% 16%;
+    --popover-foreground: 40 30% 88%;
+
+    --primary: 10 35% 60%;
+    --primary-foreground: 222 47% 10%;
+
+    --secondary: 82 25% 60%;
+    --secondary-foreground: 222 47% 10%;
+
+    --muted: 220 26% 22%;
+    --muted-foreground: 220 10% 65%;
+
+    --accent: 30 90% 72%;
+    --accent-foreground: 222 47% 10%;
+
+    --destructive: 0 70% 65%;
+    --destructive-foreground: 222 47% 10%;
+
+    --border: 220 24% 28%;
+    --input: 222 40% 10%;
+    --ring: 10 40% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+/* Voice Coach animations */
+.breathing-ring {
+  animation: breathe 4s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+}
+
+.ripple-ring {
+  position: absolute;
+  border-radius: 50%;
+  animation: ripple 3s linear infinite;
+  opacity: 0;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

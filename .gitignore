@@ -1,0 +1,8 @@
+# System
+.DS_Store
+.cursor/
+.vscode/
+
+# Backups / Old versions
+kind-home---medication-scanner/
+kind-home---medication-scanner (2) copy/

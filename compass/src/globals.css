@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* WARM MODE (Your Light Theme) */
+    --background: 43 85% 85%;      /* #FCE8B8 */
+    --foreground: 33 13% 32%;      /* #5D5347 */
+    
+    --card: 39 88% 89%;            /* #FDEFCB */
+    --card-foreground: 33 13% 32%; /* Matches foreground */
+ 
+    --popover: 39 88% 89%;         /* Same as card */
+    --popover-foreground: 33 13% 32%;
+ 
+    --primary: 6 22% 54%;          /* #A17A74 */
+    --primary-foreground: 60 9% 98%; /* White text for contrast */
+ 
+    --secondary: 85 34% 75%;       /* #C5D4AB */
+    --secondary-foreground: 33 13% 32%;
+ 
+    --muted: 39 30% 80%;           /* Slightly darker than card for disabled states */
+    --muted-foreground: 33 10% 45%;
+ 
+    --accent: 29 82% 76%;          /* #F4BF90 */
+    --accent-foreground: 33 13% 32%;
+ 
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 6 22% 54%;           /* Using Primary color for borders for warmth */
+    --input: 6 22% 54%;
+    --ring: 6 22% 54%;
+    
+    --radius: 0.9rem;              /* Your requested large radius */
+  }
+ 
+  .dark {
+    /* DARK MODE (Your Dark Theme) */
+    --background: 221 39% 11%;     /* #111827 */
+    --foreground: 210 40% 91%;     /* #E5E7EB */
+ 
+    --card: 213 31% 13%;           /* #161F2A */
+    --card-foreground: 210 40% 91%;
+ 
+    --popover: 213 31% 13%;
+    --popover-foreground: 210 40% 91%;
+ 
+    --primary: 8 39% 72%;          /* #D3A49D */
+    --primary-foreground: 221 39% 11%;
+ 
+    --secondary: 100 24% 63%;      /* #9FB88A */
+    --secondary-foreground: 221 39% 11%;
+ 
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20% 65%;
+ 
+    --accent: 29 82% 76%;          /* #F4BF90 - Kept same as light per your request */
+    --accent-foreground: 221 39% 11%;
+ 
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 212 26% 83%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html, body {
+    @apply h-full w-full m-0 p-0 overflow-hidden;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  #root {
+    @apply h-full w-full overflow-hidden;
+  }
+}
