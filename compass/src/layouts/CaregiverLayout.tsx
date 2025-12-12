@@ -34,16 +34,13 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
       {/* Sidebar */}
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         {/* CareBridge Branding */}
-        <div className="p-6 border-b border-border flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">CareBridge</h1>
-            <p className="text-sm text-muted-foreground mt-1">Admin Dashboard</p>
-          </div>
-          <ThemeToggle />
+        <div className="p-6 border-b border-border">
+          <h1 className="text-2xl font-bold text-foreground">CareBridge</h1>
+          <p className="text-sm text-muted-foreground mt-1">Admin Dashboard</p>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4">
+        <nav className="flex-1 p-4 flex flex-col gap-4">
           <ul className="space-y-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -69,6 +66,10 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
               );
             })}
           </ul>
+
+          <div className="mt-auto pt-4">
+             <ThemeToggle />
+          </div>
         </nav>
 
         {/* Footer Link to Elder View */}

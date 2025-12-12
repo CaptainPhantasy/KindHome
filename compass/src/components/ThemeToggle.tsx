@@ -7,6 +7,7 @@
  */
 
 import { useTheme } from '../contexts/ThemeProvider';
+import { Moon, Sun } from 'lucide-react';
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
@@ -14,10 +15,11 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
+      className="bg-primary text-primary-foreground w-full px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
       aria-label={`Switch to ${theme === 'warm' ? 'dark' : 'warm'} mode`}
     >
-      {theme === 'warm' ? '🌙 Dark Mode' : '☀️ Warm Mode'}
+      {theme === 'warm' ? <Moon size={20} /> : <Sun size={20} />}
+      <span>{theme === 'warm' ? 'Dark Mode' : 'Warm Mode'}</span>
     </button>
   );
 };

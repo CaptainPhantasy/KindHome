@@ -1,5 +1,5 @@
 Kind Home - Single Source of Truth
-Created: 06:46:39 Dec 11, 2025 Last Updated: 18:22:10 Dec 11, 2025
+Created: 06:46:39 Dec 11, 2025 Last Updated: 19:07:26 Dec 11, 2025
 
 ⚠️ CRITICAL: READ THIS FIRST
 All agents MUST read this entire document before making any changes.
@@ -47,7 +47,8 @@ Completed:
 - 2B.2 Dashboard Overview: High-level status of linked Elder (Adherence/Mood)
 
 Additional Features Implemented:
-- MedicationScanner: Camera-based medication scanning component (Fixed playback stability issues & infinite dependency loop)
+- MedicationScanner: Camera-based medication scanning component (Fixed playback stability issues & infinite dependency loop) with mode logic (Caregiver vs Elder)
+- Theme System: Warm/Dark mode with ThemeToggle component (restored to Elder and Caregiver layouts)
 - Voice Coach: Full voice agent integration (useVoiceAgent hook, geminiService)
 - Memory Vault: Complete localStorage-based memory capture system
 - Video Pages: Stub pages for both Elder and Caregiver modes
@@ -264,6 +265,6 @@ Workflow: Check existing docs -> Create/Edit -> Update Timestamp.
 - Medication Scanner: Camera-based scanning with OCR/AI analysis (Gemini integration)
 - State Management: Uses React Context for theme, custom hooks for data fetching (no TanStack Query/Zustand)
 - Routing: React Router v7 with nested routes, query params for elder selection
-- Theme System: CSS variables in globals.css, ThemeProvider context, data-theme attribute on root
+- Theme System: CSS variables in globals.css (data-theme attribute), ThemeProvider context
 
 17:48:37 Dec 11, 2025
