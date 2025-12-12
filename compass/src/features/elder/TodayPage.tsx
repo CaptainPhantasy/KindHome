@@ -11,6 +11,7 @@
 import { Pill } from 'lucide-react';
 import BigActionCard from './components/BigActionCard';
 import CheckInWidget from './components/CheckInWidget';
+import { ThemeToggle } from '../../components/ThemeToggle';
 
 interface Medication {
   id: string;
@@ -42,10 +43,11 @@ const TodayPage = () => {
   return (
     <div className="h-full flex flex-col p-4 sm:p-6 gap-3 sm:gap-4 overflow-hidden">
       {/* Header - Fixed size, doesn't shrink */}
-      <header className="flex-shrink-0">
+      <header className="flex-shrink-0 flex items-center justify-between">
         <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
           Good Morning, {elderName}
         </h1>
+        <ThemeToggle />
       </header>
 
       {/* Scrollable Content Area */}

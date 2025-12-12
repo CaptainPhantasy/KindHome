@@ -1,9 +1,10 @@
 import { MedicationScanner } from '../components/MedicationScanner';
+import { ScannerMode } from '../../types';
 
 const CaregiverScannerPage = () => {
   return (
     <div className="min-h-screen bg-background">
-      <MedicationScanner />
+      <MedicationScanner lockMode defaultMode={ScannerMode.MEDICATION} />
     </div>
   );
 };

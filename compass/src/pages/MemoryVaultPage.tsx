@@ -37,13 +37,13 @@ const MemoryVaultPage = () => {
   };
 
   return (
-    <div className="h-screen bg-sand flex flex-col overflow-hidden font-sans">
+    <div className="h-screen bg-background flex flex-col overflow-hidden font-sans">
       <header className="flex-shrink-0 px-8 py-6 flex items-baseline justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-sage tracking-tight">Kind Home</h1>
-          <p className="text-warm-grey/60 text-sm mt-1">Memory Vault</p>
+          <h1 className="text-3xl font-bold text-primary tracking-tight">Kind Home</h1>
+          <p className="text-foreground/60 text-sm mt-1">Memory Vault</p>
         </div>
-        <div className="text-xs text-warm-grey/40 hidden md:block">Protected by Memory Vault Technology™</div>
+        <div className="text-xs text-foreground/40 hidden md:block">Protected by Memory Vault Technology™</div>
       </header>
 
       <main className="flex-1 overflow-hidden p-6 pt-0 pb-6 max-w-[1600px] w-full mx-auto">
@@ -52,8 +52,8 @@ const MemoryVaultPage = () => {
             <MemoryInputWidget onSave={handleSaveMemory} />
           </div>
 
-          <section className="lg:col-span-7 h-full min-h-0 bg-white/50 rounded-3xl shadow-sm border border-white/60 flex flex-col overflow-hidden relative animate-fade-in">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sage/20 via-sage/40 to-sage/20" />
+          <section className="lg:col-span-7 h-full min-h-0 bg-card rounded-3xl shadow-sm border border-border flex flex-col overflow-hidden relative animate-fade-in">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20" />
             <div className="flex-1 overflow-hidden">
               <MemoryList memories={memories} onDelete={handleDeleteMemory} />
             </div>

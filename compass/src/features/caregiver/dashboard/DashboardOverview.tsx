@@ -222,9 +222,7 @@ const DashboardOverview = ({ elderId }: DashboardOverviewProps) => {
       </div>
 
       {/* Medication Scanner */}
-      <div className="max-w-md mx-auto mt-10">
-        <MedicationScanner onSave={handleSaveMedication} lockMode defaultMode={ScannerMode.MEDICATION} />
-      </div>
+      {/* Removed embedded scanner to avoid duplication with dedicated route */}
     </div>
   );
 };

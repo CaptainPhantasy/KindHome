@@ -36,7 +36,8 @@
     --radius: 0.9rem;              /* Your requested large radius */
   }
  
-  .dark {
+  /* Dark theme is triggered by data-theme="dark" attribute on html */
+  [data-theme="dark"] {
     /* DARK MODE (Your Dark Theme) */
     --background: 221 39% 11%;     /* #111827 */
     --foreground: 210 40% 91%;     /* #E5E7EB */

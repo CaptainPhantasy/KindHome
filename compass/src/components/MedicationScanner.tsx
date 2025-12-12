@@ -1,18 +1,21 @@
 import { useEffect, useMemo, useId } from 'react';
-import { Camera, RefreshCw, Check, AlertCircle, Loader2, Info, Volume2, Pill, ScanEye } from 'lucide-react';
+import { Camera, RefreshCw, Check, AlertCircle, Loader2, Info, Volume2, Pill, ScanEye, X } from 'lucide-react';
 import { useCameraStream } from '../hooks/useCameraStream';
 import { useMedicationScanner } from '../hooks/useMedicationScanner';
 import { CameraState, ScannerState, ScannerMode } from '../../types';
 import type { MedicationData } from '../../types';
+import { useNavigate } from 'react-router';
 
 interface MedicationScannerProps {
   onSave?: (data: MedicationData) => void;
   lockMode?: boolean;
   defaultMode?: ScannerMode;
+  onExit?: () => void;
 }
 
-export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = ScannerMode.MEDICATION }: MedicationScannerProps) => {
+export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = ScannerMode.MEDICATION, onExit }: MedicationScannerProps) => {
   const frequencySelectId = useId();
+  const navigate = useNavigate();
   const { videoRef, cameraState, activeStream, startCamera, stopCamera } = useCameraStream();
   const {
     scannerState,
@@ -28,6 +31,20 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
     playAudio,
     isSpeaking,
   } = useMedicationScanner(videoRef);
+
+  // Default exit handler if none provided
+  const handleExit = () => {
+    if (onExit) {
+      onExit();
+    } else {
+      // Navigate back based on context (simple heuristic)
+      if (window.location.pathname.includes('caregiver')) {
+        navigate('/caregiver/dashboard');
+      } else {
+        navigate('/elder/today');
+      }
+    }
+  };
 
   // Initialize mode and camera
   useEffect(() => {
@@ -305,9 +322,10 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
   // ACTIVE SCANNING STATE
   return (
     <div className="relative h-screen bg-black overflow-hidden flex flex-col">
-      <div className="absolute top-0 left-0 right-0 z-30 p-4 pt-6 bg-gradient-to-b from-black/80 to-transparent">
-        {!lockMode && (
-          <div className="bg-white/20 backdrop-blur-md p-1 rounded-2xl flex max-w-sm mx-auto">
+      <div className="absolute top-0 left-0 right-0 z-30 p-4 pt-6 bg-gradient-to-b from-black/80 to-transparent flex items-start justify-between">
+        {/* Mode Toggles (Left/Center) */}
+        {!lockMode ? (
+          <div className="bg-white/20 backdrop-blur-md p-1 rounded-2xl flex max-w-sm flex-1 mr-4">
             <button
               type="button"
               onClick={() => setMode(ScannerMode.IDENTIFY)}
@@ -327,7 +345,16 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
               <Pill className="w-5 h-5" /> Medicine
             </button>
           </div>
-        )}
+        ) : <div className="flex-1" />}
+
+        {/* Exit Button (Right) */}
+        <button
+          onClick={handleExit}
+          className="bg-black/40 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/60 active:scale-95 transition-all border border-white/10"
+          aria-label="Close Scanner"
+        >
+          <X className="w-8 h-8" />
+        </button>
       </div>
 
       <div className="flex-1 relative">

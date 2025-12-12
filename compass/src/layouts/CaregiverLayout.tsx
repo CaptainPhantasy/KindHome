@@ -11,6 +11,7 @@
 
 import { Outlet, Link, useLocation } from 'react-router';
 import { LayoutDashboard, Users, Video, Settings, Home, Pill } from 'lucide-react';
+import { ThemeToggle } from '../components/ThemeToggle';
 import type { ReactNode } from 'react';
 
 interface CaregiverLayoutProps {
@@ -33,9 +34,12 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
       {/* Sidebar */}
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         {/* CareBridge Branding */}
-        <div className="p-6 border-b border-border">
-          <h1 className="text-2xl font-bold text-foreground">CareBridge</h1>
-          <p className="text-sm text-muted-foreground mt-1">Admin Dashboard</p>
+        <div className="p-6 border-b border-border flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">CareBridge</h1>
+            <p className="text-sm text-muted-foreground mt-1">Admin Dashboard</p>
+          </div>
+          <ThemeToggle />
         </div>
 
         {/* Navigation */}
