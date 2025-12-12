@@ -1,3 +1,6 @@
+/* LiveKit Components Styles */
+@import '@livekit/components-styles';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

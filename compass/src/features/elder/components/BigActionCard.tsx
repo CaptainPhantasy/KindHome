@@ -37,7 +37,7 @@ const BigActionCard = ({ icon: Icon, title, time, status, onClick }: BigActionCa
           : 'bg-card text-card-foreground'
         }
         border border-border
-        shadow-sm hover:shadow-md
+        shadow-realistic
       `}
     >
       {/* Icon */}

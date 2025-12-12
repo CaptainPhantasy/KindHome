@@ -53,7 +53,7 @@ const CoachTeaser = () => {
   };
 
   return (
-    <div className="w-full h-full bg-card rounded-lg border border-border p-3 sm:p-4 md:p-6 flex flex-col gap-2 sm:gap-3 md:gap-4 min-h-0">
+    <div className="w-full h-full bg-card rounded-lg border border-border p-3 sm:p-4 md:p-6 flex flex-col gap-2 sm:gap-3 md:gap-4 min-h-0 shadow-card-depth" style={{ transform: 'translateZ(15px)' }}>
       {/* Header - Fixed size */}
       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
         <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary flex items-center justify-center">
@@ -104,7 +104,7 @@ const CoachTeaser = () => {
         <button
           type="button"
           onClick={handleVoiceInput}
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-secondary text-secondary-foreground flex items-center justify-center border-2 border-border hover:bg-secondary/80 active:scale-95 transition-all flex-shrink-0"
+          className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-secondary text-secondary-foreground flex items-center justify-center border-2 border-border hover:bg-secondary/80 active:scale-95 transition-all flex-shrink-0 shadow-realistic"
           aria-label="Voice input"
         >
           <Mic size={28} className="sm:w-8 sm:h-8" strokeWidth={2} />
@@ -115,7 +115,7 @@ const CoachTeaser = () => {
           type="button"
           onClick={handleSend}
           disabled={!inputValue.trim()}
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-primary text-primary-foreground flex items-center justify-center border-2 border-border hover:bg-primary/90 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+          className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-primary text-primary-foreground flex items-center justify-center border-2 border-border hover:bg-primary/90 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 shadow-realistic"
           aria-label="Send message"
         >
           <Send size={28} className="sm:w-8 sm:h-8" strokeWidth={2} />

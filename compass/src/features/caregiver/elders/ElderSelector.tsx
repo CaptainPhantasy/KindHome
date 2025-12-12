@@ -83,7 +83,7 @@ const ElderSelector = () => {
             <button
               key={elder.id}
               onClick={() => navigate(`/caregiver/dashboard?elder=${elder.id}`)}
-              className="text-left transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
+              className="text-left transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg shadow-realistic active:scale-95"
             >
               <SolidCard variant="primary" className="h-full cursor-pointer">
                 <div className="flex flex-col items-center text-center">

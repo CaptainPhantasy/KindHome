@@ -27,8 +27,9 @@ const DashboardPage = () => {
               Please select an elder to view their dashboard.
             </p>
             <button
+              type="button"
               onClick={() => navigate('/caregiver')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-all shadow-realistic active:scale-95"
             >
               <ArrowLeft size={16} />
               Select Elder

@@ -102,7 +102,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
   if (cameraState === CameraState.DENIED) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-background">
-        <div className="bg-warning p-8 rounded-2xl shadow-sm border border-warning max-w-md w-full">
+        <div className="bg-warning p-8 rounded-2xl shadow-card-depth border border-warning max-w-md w-full" style={{ transform: 'translateZ(15px)' }}>
           <div className="flex justify-center mb-6">
             <Camera className="w-16 h-16 text-primary opacity-50" />
           </div>
@@ -114,7 +114,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
           <button
             type="button"
             onClick={() => startCamera()}
-            className="w-full h-20 bg-primary text-primary-foreground text-xl font-bold rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center gap-3"
+            className="w-full h-20 bg-primary text-primary-foreground text-xl font-bold rounded-xl shadow-realistic active:scale-95 transition-all flex items-center justify-center gap-3"
           >
             <RefreshCw className="w-8 h-8" />
             Try Again
@@ -129,7 +129,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-background relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 animate-pulse z-0" />
-        <div className="z-10 bg-card p-8 rounded-2xl shadow-lg border border-primary/20 max-w-md w-full">
+        <div className="z-10 bg-card p-8 rounded-2xl shadow-card-depth border border-primary/20 max-w-md w-full" style={{ transform: 'translateZ(15px)' }}>
           <Loader2 className="w-20 h-20 text-primary animate-spin mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-primary mb-2">
             {mode === ScannerMode.MEDICATION ? 'Reading Label...' : 'Looking Closely...'}
@@ -156,7 +156,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
             <button
               type="button"
               onClick={() => playAudio(identificationData.audioBuffer as ArrayBuffer)}
-              className="flex items-center gap-3 px-8 py-4 bg-card border-2 border-primary text-primary text-xl font-bold rounded-2xl shadow-sm active:scale-95 transition-transform mb-8"
+              className="flex items-center gap-3 px-8 py-4 bg-card border-2 border-primary text-primary text-xl font-bold rounded-2xl shadow-realistic active:scale-95 transition-all mb-8"
             >
               <Volume2 className="w-6 h-6" />
               {isSpeaking ? 'Speaking...' : 'Listen Again'}
@@ -173,7 +173,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
         <button
           type="button"
           onClick={resetScanner}
-          className="w-full h-20 bg-primary text-primary-foreground text-2xl font-bold rounded-2xl shadow-lg active:scale-95 transition-transform"
+          className="w-full h-20 bg-primary text-primary-foreground text-2xl font-bold rounded-2xl shadow-realistic active:scale-95 transition-all"
         >
           Identify Another Item
         </button>
@@ -194,8 +194,8 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
           </p>
           <button
             type="button"
-            onClick={resetScanner}
-            className="w-full h-16 bg-primary text-primary-foreground font-bold rounded-xl"
+          onClick={resetScanner}
+          className="w-full h-16 bg-primary text-primary-foreground font-bold rounded-xl shadow-realistic active:scale-95 transition-all"
           >
             Try Again
           </button>
@@ -265,7 +265,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
             <button
               type="button"
               onClick={resetScanner}
-              className="flex-1 h-20 bg-card border-2 border-primary text-primary text-xl font-bold rounded-xl shadow-sm active:scale-95 transition-transform"
+              className="flex-1 h-20 bg-card border-2 border-primary text-primary text-xl font-bold rounded-xl shadow-realistic active:scale-95 transition-all"
             >
               Retake
             </button>
@@ -279,11 +279,11 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
               }}
               disabled={!isFormValid}
               className={`
-                flex-[2] h-20 text-xl font-bold rounded-xl shadow-md flex items-center justify-center gap-3 transition-all
+                flex-[2] h-20 text-xl font-bold rounded-xl shadow-realistic flex items-center justify-center gap-3 transition-all active:scale-95
                 ${
                   !isFormValid
                     ? 'bg-input text-foreground/50 cursor-not-allowed'
-                    : 'bg-primary text-primary-foreground active:scale-95 shadow-lg'
+                    : 'bg-primary text-primary-foreground'
                 }
               `}
             >
@@ -311,7 +311,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
             resetScanner();
             startCamera();
           }}
-          className="w-full max-w-sm h-20 bg-primary text-primary-foreground text-xl font-bold rounded-xl shadow-lg active:scale-95 transition-transform"
+          className="w-full max-w-sm h-20 bg-primary text-primary-foreground text-xl font-bold rounded-xl shadow-realistic active:scale-95 transition-all"
         >
           Scan Another
         </button>
@@ -329,8 +329,8 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
             <button
               type="button"
               onClick={() => setMode(ScannerMode.IDENTIFY)}
-              className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all ${
-                mode === ScannerMode.IDENTIFY ? 'bg-secondary text-white shadow-md' : 'text-white/80'
+              className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-realistic active:scale-95 ${
+                mode === ScannerMode.IDENTIFY ? 'bg-secondary text-white' : 'text-white/80'
               }`}
             >
               <ScanEye className="w-5 h-5" /> Identify
@@ -338,8 +338,8 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
             <button
               type="button"
               onClick={() => setMode(ScannerMode.MEDICATION)}
-              className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all ${
-                mode === ScannerMode.MEDICATION ? 'bg-primary text-white shadow-md' : 'text-white/80'
+              className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-realistic active:scale-95 ${
+                mode === ScannerMode.MEDICATION ? 'bg-primary text-white' : 'text-white/80'
               }`}
             >
               <Pill className="w-5 h-5" /> Medicine
@@ -349,8 +349,9 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
 
         {/* Exit Button (Right) */}
         <button
+          type="button"
           onClick={handleExit}
-          className="bg-black/40 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/60 active:scale-95 transition-all border border-white/10"
+          className="bg-black/40 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/60 active:scale-95 transition-all border border-white/10 shadow-realistic"
           aria-label="Close Scanner"
         >
           <X className="w-8 h-8" />
@@ -375,7 +376,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
         <button
           type="button"
           onClick={captureAndAnalyze}
-          className={`w-full h-24 text-2xl font-bold rounded-2xl shadow-xl active:scale-95 transition-transform flex items-center justify-center gap-3 ring-4 ${
+          className={`w-full h-24 text-2xl font-bold rounded-2xl shadow-realistic active:scale-95 transition-all flex items-center justify-center gap-3 ring-4 ${
             mode === ScannerMode.MEDICATION ? 'bg-primary text-white ring-primary/20' : 'bg-secondary text-white ring-secondary/20'
           }`}
         >

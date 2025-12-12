@@ -85,7 +85,7 @@ const CheckInWidget = ({ onCheckIn, lastCheckedIn }: CheckInWidgetProps) => {
             : 'bg-secondary text-secondary-foreground hover:opacity-90'
           }
           border-2 border-secondary
-          shadow-lg hover:shadow-xl
+          shadow-realistic
         `}
       >
         {isCheckedIn ? (

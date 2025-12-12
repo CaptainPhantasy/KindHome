@@ -41,7 +41,7 @@ const MemoryList = ({ memories, onDelete }: MemoryListProps) => {
           </div>
         ) : (
           memories.map((memory) => (
-            <div key={memory.id} className="bg-card rounded-2xl p-5 shadow-sm hover:shadow-md transition-all border border-border group">
+            <div key={memory.id} className="bg-card rounded-2xl p-5 shadow-card-depth hover:shadow-card-depth transition-all border border-border group" style={{ transform: 'translateZ(15px)' }}>
               <div className="flex justify-between items-start mb-2">
                 <h3 className="text-lg font-bold text-primary line-clamp-1">{memory.title}</h3>
                 <span className="shrink-0 px-2 py-0.5 bg-background/50 rounded-md text-foreground/70 text-[10px] font-bold uppercase tracking-wide">
@@ -78,7 +78,7 @@ const MemoryList = ({ memories, onDelete }: MemoryListProps) => {
                     e.stopPropagation();
                     if (memory.id) onDelete(memory.id);
                   }}
-                  className="p-1.5 text-foreground/30 hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                  className="p-1.5 text-foreground/30 hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all shadow-realistic active:scale-95"
                   title="Delete Memory"
                 >
                   <Trash2 className="w-4 h-4" />

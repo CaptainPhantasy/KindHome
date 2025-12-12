@@ -10,7 +10,7 @@
  */
 
 import { Outlet, Link, useLocation } from 'react-router';
-import { LayoutDashboard, Users, Video, Settings, Home, Pill } from 'lucide-react';
+import { LayoutDashboard, Users, Video, Settings, Home, Pill, PillBottle } from 'lucide-react';
 import { ThemeToggle } from '../components/ThemeToggle';
 import type { ReactNode } from 'react';
 
@@ -23,6 +23,7 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
 
   const navItems = [
     { path: '/caregiver/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/caregiver/medications', icon: PillBottle, label: 'Medications' },
     { path: '/caregiver/scanner', icon: Pill, label: 'Med Scanner' },
     { path: '/caregiver/people', icon: Users, label: 'People' },
     { path: '/caregiver/video', icon: Video, label: 'Video Bridge' },
@@ -52,7 +53,9 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
                     to={item.path}
                     className={`
                       flex items-center gap-3 px-4 py-3
-                      rounded-lg transition-colors
+                      rounded-lg transition-all
+                      shadow-realistic
+                      active:scale-95
                       ${isActive 
                         ? 'bg-primary text-primary-foreground' 
                         : 'text-foreground hover:bg-muted'
@@ -76,7 +79,7 @@ const CaregiverLayout = ({ children }: CaregiverLayoutProps) => {
         <div className="p-4 border-t border-border">
           <Link
             to="/elder/today"
-            className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors"
+            className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-all shadow-realistic active:scale-95"
           >
             <Home size={20} strokeWidth={2} />
             <span className="font-medium">Elder View</span>

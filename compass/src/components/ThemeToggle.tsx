@@ -15,7 +15,7 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="bg-primary text-primary-foreground w-full px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+      className="bg-primary text-primary-foreground w-full px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-realistic active:scale-95"
       aria-label={`Switch to ${theme === 'warm' ? 'dark' : 'warm'} mode`}
     >
       {theme === 'warm' ? <Moon size={20} /> : <Sun size={20} />}

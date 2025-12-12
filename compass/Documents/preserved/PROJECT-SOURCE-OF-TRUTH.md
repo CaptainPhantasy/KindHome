@@ -1,5 +1,5 @@
 Kind Home - Single Source of Truth
-Created: 06:46:39 Dec 11, 2025 Last Updated: 19:07:26 Dec 11, 2025
+Created: 06:46:39 Dec 11, 2025 Last Updated: 02:40:46 Dec 12, 2025
 
 ⚠️ CRITICAL: READ THIS FIRST
 All agents MUST read this entire document before making any changes.
@@ -24,7 +24,7 @@ Kind Scenes: Shared home automation control.
 Memory Vault: Semantic search for lost items (localStorage-based implementation).
 
 📍 CURRENT STATUS
-Phase: 1 ✅ Complete | Phase 2: Partially Complete (Track A: ~75%, Track B: ~50%)
+Phase: 1 ✅ Complete | Phase 2: Partially Complete (Track A: ~75%, Track B: ~90%)
 
 Completed:
 
@@ -45,15 +45,19 @@ Completed:
 ✅ Phase 2 Track B (Caregiver UI):
 - 2B.1 Elder Selector: "Who are you caring for?" screen with auto-redirect logic (uses family_links)
 - 2B.2 Dashboard Overview: High-level status of linked Elder (Adherence/Mood)
+- 2B.3 Medications Manager (CRUD): Complete CRUD interface for managing medications (`/caregiver/medications`)
+- 2B.4 Safety Stream: Activity feed component displaying medication events and check-ins (embedded in DashboardOverview)
 
 Additional Features Implemented:
 - MedicationScanner: Camera-based medication scanning component (Fixed playback stability issues & infinite dependency loop) with mode logic (Caregiver vs Elder)
 - Theme System: Warm/Dark mode with ThemeToggle component (restored to Elder and Caregiver layouts)
 - Voice Coach: Full voice agent integration (useVoiceAgent hook, geminiService)
 - Memory Vault: Complete localStorage-based memory capture system
-- Video Pages: Stub pages for both Elder and Caregiver modes
+- Video Bridge (Phase 3.3): LiveKit integration with Supabase Edge Function for token minting. Caregiver page uses standard VideoConference component. Elder page has custom elder-friendly UI with huge touch targets (h-24 w-24 buttons, size-48 icons). Room naming: `video-{elderId}` for caregiver calls, `video-{currentUserId}` for elder rooms.
 - People Pages: Stub pages for both Elder and Caregiver modes
 - Settings Page: Stub page for Caregiver mode
+- Code Splitting: All routes use React.lazy() for code splitting - Elder routes only load Elder chunks, Caregiver routes only load Caregiver chunks
+- RootGatekeeper: Authentication and role-based routing component at `/` that redirects based on user role (elder → `/elder`, caregiver → `/caregiver`)
 
 Next Steps:
 
@@ -61,8 +65,7 @@ Next Steps:
 - 2A.4 Meds View (Read-Only): Simple list of today's medications (NOT YET IMPLEMENTED)
 
 ⏳ Track B (Caregiver):
-- 2B.3 Meds Manager (CRUD): Add/Edit/Delete medications and schedules (NOT YET IMPLEMENTED)
-- 2B.4 Safety Stream: Activity feed of check-ins and completed tasks (NOT YET IMPLEMENTED)
+- All core features complete! Ready for Phase 3.
 
 
 
@@ -93,9 +96,9 @@ Phase 2: The Core Loops (Parallel Work Allowed) - IN PROGRESS
 
 **2B.2 Dashboard Overview** ✅ [COMPLETE]: High-level status of linked Elder (Adherence/Mood) via DashboardOverview component and useElderDashboard hook.
 
-⏳ 2B.3 Meds Manager (CRUD): Add/Edit/Delete medications and schedules (NOT YET IMPLEMENTED).
+**2B.3 Medications Manager (CRUD)** ✅ [COMPLETE]: Full CRUD interface at `/caregiver/medications?elder={id}`. Features: Add/Edit/Delete medications with name, dosage, frequency (cron schedule), and purpose fields. Uses TintedCard for medication list display. Frequency options include common schedules (once daily, twice daily, etc.) with automatic cron conversion.
 
-⏳ 2B.4 Safety Stream: Activity feed of check-ins and completed tasks (NOT YET IMPLEMENTED).
+**2B.4 Safety Stream** ✅ [COMPLETE]: Activity feed component (`SafetyStream.tsx`) displaying chronological medication events (taken/skipped/missed) with medication names joined from medications table. Embedded in DashboardOverview. Shows events from last 7 days. Ready for check-in integration when check-in system is implemented.
 
 🧭 NAVIGATION & PAGES (ACTUAL ROUTES)
 Elder Routes (`/elder`):
@@ -103,19 +106,20 @@ Elder Routes (`/elder`):
 - `/elder/people` → ElderPeoplePage (stub)
 - `/elder/memory-vault` → MemoryVaultPage (complete implementation)
 - `/elder/scanner` → ElderScannerPage (Medication scanner; lockMode MEDICATION)
-- `/elder/video` → ElderVideoPage (stub)
+- `/elder/video` → ElderVideoPage (LiveKit integration with custom elder-friendly UI)
 - `/elder/coach` → CoachPage (full Voice Coach implementation)
 
 Caregiver Routes (`/caregiver`):
 - `/caregiver` → ElderSelector (auto-redirects if 1 elder)
-- `/caregiver/dashboard?elder={id}` → DashboardPage → DashboardOverview
+- `/caregiver/dashboard?elder={id}` → DashboardPage → DashboardOverview (includes SafetyStream)
+- `/caregiver/medications?elder={id}` → MedicationsPage (CRUD interface for medications)
 - `/caregiver/scanner` → CaregiverScannerPage (Medication/Identify scanner)
 - `/caregiver/people` → CaregiverPeoplePage (stub)
-- `/caregiver/video` → CaregiverVideoPage (stub)
+- `/caregiver/video?elder={id}` → CaregiverVideoPage (LiveKit integration with VideoConference component)
 - `/caregiver/settings` → SettingsPage (stub)
 
 Root Route:
-- `/` → ElderLayout → TodayPage
+- `/` → RootGatekeeper (authentication & role-based routing: elder → `/elder`, caregiver → `/caregiver`, unauthenticated → login page)
 
 
 
@@ -124,7 +128,7 @@ Phase 3: Connection & Memory
 
 3.2 Memory Vault: Voice search (Elder) vs Note Organizer (Caregiver).
 
-3.3 Video Bridge: WebRTC integration (LiveKit) - Auto-answer logic.
+**3.3 Video Bridge** ✅ [COMPLETE]: WebRTC integration (LiveKit) with Supabase Edge Function (`mint-token`) for JWT token generation. Caregiver video page (`/caregiver/video?elder={id}`) uses standard VideoConference component. Elder video page (`/elder/video`) has custom elder-friendly layout with huge touch targets. Room naming convention: `video-{elderId}` for caregiver calls, `video-{currentUserId}` for elder rooms. Auto-answer logic implemented: Elder video page automatically connects when loaded and listens for incoming participants via LiveKit room events (RoomEvent.ParticipantConnected). **Development Mode:** Both video pages support testing without authentication - elder page uses dev IDs (from URL param `?publicId=` or localStorage), caregiver uses `'Dev Caregiver'` identity. Dev mode automatically activates when no authenticated user is found.
 
 
 
@@ -211,14 +215,15 @@ src/
 │   │   ├── components/           ← BigActionCard, CheckInWidget, CoachTeaser
 │   │   ├── TodayPage.tsx         ← Today Dashboard (meds timeline, check-in)
 │   │   ├── PeoplePage.tsx        ← Stub
-│   │   ├── VideoPage.tsx         ← Stub
+│   │   ├── VideoPage.tsx         ← LiveKit integration (elder-friendly custom UI)
 │   │   └── MemoryPage.tsx        ← Stub (MemoryVaultPage is in pages/)
 │   └── caregiver/                ← Admin UI (CareBridge)
-│       ├── dashboard/            ← DashboardOverview.tsx, useElderDashboard.ts
+│       ├── dashboard/            ← DashboardOverview.tsx, SafetyStream.tsx, useElderDashboard.ts
 │       ├── elders/               ← ElderSelector.tsx, useLinkedElders.ts
 │       ├── DashboardPage.tsx     ← Main dashboard page (reads elder query param)
+│       ├── MedicationsPage.tsx    ← Medications CRUD interface
 │       ├── PeoplePage.tsx        ← Stub
-│       ├── VideoPage.tsx         ← Stub
+│       ├── VideoPage.tsx         ← LiveKit integration (VideoConference component)
 │       └── SettingsPage.tsx      ← Stub
 ├── pages/                        ← Top-level pages
 │   ├── CoachPage.tsx             ← Voice Coach page (uses VoiceCoachWidget)
@@ -246,12 +251,12 @@ src/
 ├── lib/
 │   ├── supabase.ts               ← Supabase client config
 │   ├── utils.ts                  ← Utility functions
-│   └── video.ts                  ← Video utilities
+│   └── video.ts                  ← Video utilities (getToken function for LiveKit)
 ├── types/
 │   └── schema.ts                 ← Database schema types (Profile, FamilyLink, Medication, MedEvent)
 ├── types.ts                      ← Application types (MedicationData, CameraState, ScannerState, AgentState, MemoryRecord, etc.)
 ├── globals.css                   ← 24 tokens, theme system (@tailwind directives)
-└── App.tsx                       ← Router configuration
+└── App.tsx                       ← Router configuration with code splitting (React.lazy + Suspense)
 📋 DOCUMENT MANAGEMENT
 No orphan documents: Store in Documents/.
 
@@ -263,8 +268,33 @@ Workflow: Check existing docs -> Create/Edit -> Update Timestamp.
 - Voice Coach: Full implementation with Gemini AI, real-time transcription, agent responses, feedback system
 - Memory Vault: Currently uses localStorage (not yet connected to Supabase memory_notes table)
 - Medication Scanner: Camera-based scanning with OCR/AI analysis (Gemini integration)
+- Video Bridge: LiveKit integration with Supabase Edge Function (`supabase/functions/mint-token/index.ts`) for token generation. Uses `@livekit/components-react` and `livekit-client`. Environment variables: `VITE_LIVEKIT_URL` (client), `LIVEKIT_API_KEY` and `LIVEKIT_API_SECRET` (Edge Function). LiveKit styles imported in `src/index.css`.
 - State Management: Uses React Context for theme, custom hooks for data fetching (no TanStack Query/Zustand)
-- Routing: React Router v7 with nested routes, query params for elder selection
+- Routing: React Router v7 with nested routes, query params for elder selection. **Code Splitting:** All routes use `React.lazy()` with `Suspense` boundaries. Elder routes only load Elder chunks, Caregiver routes only load Caregiver chunks. Loading fallback uses centered Loader2 spinner.
+- Authentication & Routing: RootGatekeeper component at `/` handles authentication state and role-based routing. Unauthenticated users see login page with Google OAuth and email/password options. Missing session errors are handled gracefully (treated as "not authenticated" rather than fatal errors). Authenticated users are redirected based on profile role (elder → `/elder`, caregiver → `/caregiver`). Supports both OAuth (Google) and email/password authentication with sign-up flow.
+- Medications Manager: Full CRUD interface with form validation. Frequency options convert to cron expressions. Purpose field included in form (note: not yet in database schema - may need schema update for production).
+- Safety Stream: Queries med_events table joined with medications to display medication names. Chronological feed showing last 7 days. Ready for check-in integration when check-in system is implemented.
 - Theme System: CSS variables in globals.css (data-theme attribute), ThemeProvider context
+- Visual Design Enhancements: 
+  - **Shadow System**: Created theme-aware shadow utilities (`shadow-realistic` and `shadow-card-depth`) that adapt to light/dark mode:
+    - Light mode: Dark shadows (rgba(0, 0, 0, 0.4)) for depth
+    - Dark mode: Light shadows (rgba(255, 255, 255, 0.15)) for contrast
+    - **GLOBAL CONSISTENCY**: All shadows use the SAME opacity values globally (40% in light, 15% in dark)
+  - **Button Consistency**: ALL buttons globally have:
+    - `shadow-realistic` class (theme-aware shadows)
+    - `active:scale-95` press state (consistent depression effect)
+    - `transition-all` (consistent transitions, not transition-colors/transform/opacity)
+    - Updated all button variants (default, destructive, outline, secondary, ghost, link) in `button.tsx`
+    - Fixed ALL raw `<button>` elements: MedicationScanner (12 buttons), MemoryInputWidget (5 buttons), VoiceCoachWidget (6 buttons), CheckInWidget (1 button), ThemeToggle (1 button), RootGatekeeper (2 buttons), ElderLayout nav (6 links), CaregiverLayout nav (7 links), VideoPage buttons (3 buttons), caregiver pages (4 buttons), MemoryList (1 button), CoachTeaser (2 buttons), MedicationsPage (2 buttons), BigActionCard (3 medication buttons on Today page - fixed shadow from shadow-card-depth to shadow-realistic)
+  - **Card Consistency**: ALL cards globally have:
+    - `shadow-card-depth` class (theme-aware shadows)
+    - `translateZ(15px)` for consistent 15px visual depth
+    - Applied to: SolidCard, TintedCard, MemoryList cards, MemoryInputWidget containers, VoiceCoachWidget modal, MedicationScanner cards, MemoryVaultPage, ElderLayout nav, VideoPage cards, CoachTeaser container
+    - **NOTE**: BigActionCard is a BUTTON component, not a card - uses `shadow-realistic` not `shadow-card-depth`
+  - **Dark Mode Fix**: Fixed coach onboarding modal dark mode - replaced hardcoded bg-white/bg-warm-white with theme tokens (bg-card, bg-background)
+- Authentication Improvements: 
+  - Fixed "Auth session missing!" error handling - missing sessions treated as normal "not authenticated" state
+  - Added development mode bypass - when running on localhost, shows role selector and skips authentication entirely
+  - Added email/password login and sign-up options (production mode only)
 
-17:48:37 Dec 11, 2025
+02:40:46 Dec 12, 2025

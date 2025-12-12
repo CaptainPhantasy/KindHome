@@ -63,38 +63,38 @@ const VoiceCoachWidget = () => {
     <div className="flex flex-col items-center justify-between h-[750px] w-full max-w-lg relative">
       {/* TUTORIAL MODAL OVERLAY */}
       {showTutorial && (
-        <div className="fixed inset-0 z-50 bg-warm-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-stone-100">
-            <h2 className="text-3xl font-semibold text-sage mb-6">Welcome to Kind Home</h2>
+        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
+          <div className="bg-card text-card-foreground rounded-3xl shadow-card-depth p-8 max-w-md w-full border border-border" style={{ transform: 'translateZ(15px)' }}>
+            <h2 className="text-3xl font-semibold text-primary mb-6">Welcome to Kind Home</h2>
 
             <div className="space-y-6 text-left">
               <div className="flex items-start gap-4">
-                <div className="bg-secondary/20 p-3 rounded-full text-sage mt-1">
+                <div className="bg-secondary/20 p-3 rounded-full text-primary mt-1">
                   <Mic size={24} />
                 </div>
                 <div>
-                  <h3 className="font-medium text-xl text-warm-grey">Tap to Start</h3>
-                  <p className="text-stone-500 text-lg">Tap the large circle to begin our conversation.</p>
+                  <h3 className="font-medium text-xl text-foreground">Tap to Start</h3>
+                  <p className="text-muted-foreground text-lg">Tap the large circle to begin our conversation.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-rust/10 p-3 rounded-full text-rust mt-1">
+                <div className="bg-accent/20 p-3 rounded-full text-accent mt-1">
                   <AudioLines size={24} />
                 </div>
                 <div>
-                  <h3 className="font-medium text-xl text-warm-grey">I'm Listening</h3>
-                  <p className="text-stone-500 text-lg">I will listen when the waves are moving.</p>
+                  <h3 className="font-medium text-xl text-foreground">I'm Listening</h3>
+                  <p className="text-muted-foreground text-lg">I will listen when the waves are moving.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-red-50 p-3 rounded-full text-red-500 mt-1">
+                <div className="bg-destructive/20 p-3 rounded-full text-destructive mt-1">
                   <Square size={24} />
                 </div>
                 <div>
-                  <h3 className="font-medium text-xl text-warm-grey">Interrupt Anytime</h3>
-                  <p className="text-stone-500 text-lg">Tap "Stop" or the circle if you need me to stop speaking.</p>
+                  <h3 className="font-medium text-xl text-foreground">Interrupt Anytime</h3>
+                  <p className="text-muted-foreground text-lg">Tap "Stop" or the circle if you need me to stop speaking.</p>
                 </div>
               </div>
             </div>
@@ -102,7 +102,7 @@ const VoiceCoachWidget = () => {
             <button
               type="button"
               onClick={dismissTutorial}
-              className="mt-10 w-full bg-sage text-white text-2xl font-medium py-4 rounded-xl hover:bg-sage/90 transition-colors shadow-lg"
+              className="mt-10 w-full bg-primary text-primary-foreground text-2xl font-medium py-4 rounded-xl hover:bg-primary/90 transition-all shadow-realistic active:scale-95"
             >
               I Understand
             </button>
@@ -115,7 +115,7 @@ const VoiceCoachWidget = () => {
         <button
           type="button"
           onClick={resetTutorial}
-          className="absolute top-0 right-0 p-4 text-stone-300 hover:text-sage transition-colors"
+          className="absolute top-0 right-0 p-4 text-muted-foreground hover:text-primary transition-all shadow-realistic active:scale-95"
           aria-label="Show Tutorial"
         >
           <Info size={32} />
@@ -129,17 +129,17 @@ const VoiceCoachWidget = () => {
             <p
               className={`text-2xl md:text-3xl font-medium leading-relaxed ${
                 lastTranscript ? 'opacity-100' : 'opacity-0'
-              } text-warm-grey`}
+              } text-foreground`}
             >
               "{lastTranscript}"
             </p>
           </div>
         ) : (
-          !error && <p className="text-3xl text-sage font-medium opacity-80">Tap the circle to start</p>
+          !error && <p className="text-3xl text-primary font-medium opacity-80">Tap the circle to start</p>
         )}
 
         {error && (
-          <p className="text-2xl text-rust font-medium mt-4 bg-red-50 px-6 py-3 rounded-xl">{error}</p>
+          <p className="text-2xl text-destructive font-medium mt-4 bg-destructive/10 px-6 py-3 rounded-xl border border-destructive/20">{error}</p>
         )}
       </div>
 
@@ -147,16 +147,16 @@ const VoiceCoachWidget = () => {
       <div className="relative flex flex-col items-center justify-center my-4">
         {/* Breathing Animation Ring (Visible when speaking) */}
         {state === AgentState.SPEAKING && (
-          <div className="absolute inset-0 bg-rust/20 rounded-full breathing-ring -z-10 scale-150 h-72 w-72 blur-xl" />
+          <div className="absolute inset-0 bg-accent/20 rounded-full breathing-ring -z-10 scale-150 h-72 w-72 blur-xl" />
         )}
 
         {/* Continuous Gentle Waves (Visible when listening) */}
         {state === AgentState.LISTENING && (
           <>
             {/* Multiple rings with staggered delays for a continuous wave effect */}
-            <div className="absolute inset-0 bg-sage/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '0s' }} />
-            <div className="absolute inset-0 bg-sage/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '1s' }} />
-            <div className="absolute inset-0 bg-sage/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '2s' }} />
+            <div className="absolute inset-0 bg-primary/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '0s' }} />
+            <div className="absolute inset-0 bg-primary/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '1s' }} />
+            <div className="absolute inset-0 bg-primary/20 ripple-ring -z-10 h-72 w-72" style={{ animationDelay: '2s' }} />
           </>
         )}
 
@@ -166,17 +166,17 @@ const VoiceCoachWidget = () => {
           onClick={handleMainButton}
           className={`
             relative flex items-center justify-center
-            h-64 w-64 rounded-full shadow-xl transition-all duration-500
-            ${state === AgentState.DISCONNECTED ? 'bg-stone-200 text-sage hover:bg-stone-300' : ''}
-            ${state === AgentState.CONNECTING ? 'bg-stone-100 text-stone-400 animate-pulse' : ''}
-            ${state === AgentState.LISTENING ? 'bg-warm-white border-8 border-sage/30 text-rust active:scale-95' : ''}
-            ${state === AgentState.SPEAKING ? 'bg-rust text-white shadow-rust/40 shadow-2xl scale-105 active:scale-95' : ''}
+            h-64 w-64 rounded-full shadow-realistic transition-all duration-500
+            ${state === AgentState.DISCONNECTED ? 'bg-muted text-primary hover:bg-muted/80 shadow-realistic' : ''}
+            ${state === AgentState.CONNECTING ? 'bg-muted/50 text-muted-foreground animate-pulse shadow-realistic' : ''}
+            ${state === AgentState.LISTENING ? 'bg-card border-8 border-primary/30 text-accent active:scale-95 shadow-realistic' : ''}
+            ${state === AgentState.SPEAKING ? 'bg-accent text-accent-foreground shadow-realistic scale-105 active:scale-95' : ''}
           `}
           aria-label={state === AgentState.SPEAKING ? 'Interrupt' : 'Start Listening'}
         >
           {state === AgentState.DISCONNECTED && <Mic size={80} strokeWidth={1.5} />}
           {state === AgentState.CONNECTING && <Mic size={80} strokeWidth={1.5} className="opacity-50" />}
-          {state === AgentState.LISTENING && <Mic size={80} strokeWidth={2} className="text-rust/80" />}
+          {state === AgentState.LISTENING && <Mic size={80} strokeWidth={2} className="text-accent/80" />}
           {state === AgentState.SPEAKING && <AudioLines size={80} strokeWidth={2} className="animate-bounce" />}
         </button>
       </div>
@@ -189,7 +189,7 @@ const VoiceCoachWidget = () => {
             <button
               type="button"
               onClick={() => handleFeedback(false)}
-              className="flex items-center gap-2 px-8 py-4 bg-stone-100 text-stone-500 rounded-2xl hover:bg-stone-200 transition-colors"
+              className="flex items-center gap-2 px-8 py-4 bg-muted text-muted-foreground rounded-2xl hover:bg-muted/80 transition-all shadow-realistic active:scale-95"
             >
               <ThumbsDown size={28} />
               <span className="text-lg font-medium">Not Helpful</span>
@@ -197,7 +197,7 @@ const VoiceCoachWidget = () => {
             <button
               type="button"
               onClick={() => handleFeedback(true)}
-              className="flex items-center gap-2 px-8 py-4 bg-sage/10 text-sage rounded-2xl hover:bg-sage/20 transition-colors"
+              className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-2xl hover:bg-primary/90 transition-all shadow-realistic active:scale-95"
             >
               <ThumbsUp size={28} />
               <span className="text-lg font-medium">Helpful</span>
@@ -210,10 +210,10 @@ const VoiceCoachWidget = () => {
           <button
             type="button"
             onClick={handleStop}
-            className="flex items-center space-x-3 bg-white border-2 border-red-100 px-12 py-5 rounded-full shadow-lg active:scale-95 transition-transform"
+            className="flex items-center space-x-3 bg-card text-card-foreground border-2 border-destructive/30 px-12 py-5 rounded-full shadow-realistic active:scale-95 transition-all"
           >
-            <Square size={24} className="text-red-500 fill-current" />
-            <span className="text-2xl font-semibold text-red-500 uppercase tracking-wide">Stop</span>
+            <Square size={24} className="text-destructive fill-current" />
+            <span className="text-2xl font-semibold text-destructive uppercase tracking-wide">Stop</span>
           </button>
         )}
 
@@ -222,7 +222,7 @@ const VoiceCoachWidget = () => {
           <button
             type="button"
             onClick={() => disconnect()}
-            className="mt-4 px-10 py-4 bg-stone-200 text-warm-grey text-xl font-medium rounded-full hover:bg-stone-300 transition-colors"
+            className="mt-4 px-10 py-4 bg-muted text-muted-foreground text-xl font-medium rounded-full hover:bg-muted/80 transition-all shadow-realistic active:scale-95"
           >
             End Session
           </button>

@@ -27,10 +27,10 @@ export const TintedCard = ({ variant, children, className = '' }: TintedCardProp
     destructive: 'bg-destructive/10 border-destructive',
   };
   
-  const baseClasses = `${variantClasses[variant]} border rounded-lg p-4`;
+  const baseClasses = `${variantClasses[variant]} border rounded-lg p-4 shadow-card-depth`;
   
   return (
-    <div className={`${baseClasses} ${className}`}>
+    <div className={`${baseClasses} ${className}`} style={{ transform: 'translateZ(15px)' }}>
       <p className="text-foreground">
         {children}
       </p>

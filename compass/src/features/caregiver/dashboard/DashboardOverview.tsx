@@ -10,13 +10,10 @@
  */
 
 import { useElderDashboard } from './useElderDashboard';
+import SafetyStream from './SafetyStream';
 import { TintedCard } from '../../../components/theme/TintedCard';
 import { SolidCard } from '../../../components/theme/SolidCard';
-import { User, Pill, CheckCircle, XCircle, AlertCircle, Activity } from 'lucide-react';
-import { MedicationScanner } from '../../../components/MedicationScanner';
-import { supabase } from '../../../lib/supabase';
-import type { MedicationData } from '../../../../types';
-import { ScannerMode } from '../../../../types';
+import { User, Pill, CheckCircle, XCircle, Activity } from 'lucide-react';
 
 interface DashboardOverviewProps {
   elderId: string;
@@ -25,38 +22,6 @@ interface DashboardOverviewProps {
 const DashboardOverview = ({ elderId }: DashboardOverviewProps) => {
   const { data, isLoading, error } = useElderDashboard(elderId);
 
-  const frequencyToCron = (frequency: string): string => {
-    const normalized = frequency.toLowerCase();
-    if (normalized.includes('twice')) return '0 9,21 * * *';
-    if (normalized.includes('every 8')) return '0 */8 * * *';
-    if (normalized.includes('evening')) return '0 21 * * *';
-    if (normalized.includes('morning')) return '0 9 * * *';
-    if (normalized.includes('as needed')) return '0 9 * * *';
-    return '0 9 * * *'; // default once daily 9 AM
-  };
-
-  const handleSaveMedication = async (med: MedicationData) => {
-    try {
-      const cron = frequencyToCron(med.frequency || '');
-      const newMedication = {
-        name: med.medication_name,
-        dosage: med.dosage,
-        elder_id: elderId,
-        schedule_cron: cron,
-      };
-
-      const { error: insertError } = await supabase.from('medications').insert([newMedication]);
-      if (insertError) {
-        throw new Error(insertError.message);
-      }
-
-      // Simple refresh to reflect new data
-      window.location.reload();
-    } catch (err) {
-      console.error('Save medication failed:', err);
-      alert('Could not save medication. Please try again.');
-    }
-  };
 
   if (isLoading) {
     return (
@@ -85,7 +50,7 @@ const DashboardOverview = ({ elderId }: DashboardOverviewProps) => {
     );
   }
 
-  const { elder, stats, recentEvents } = data;
+  const { elder, stats } = data;
 
   // Determine adherence status color
   const getAdherenceVariant = (rate: number): 'accent' | 'success' | 'warning' | 'destructive' => {
@@ -174,52 +139,8 @@ const DashboardOverview = ({ elderId }: DashboardOverviewProps) => {
         )}
       </div>
 
-      {/* Recent Activity */}
-      <div>
-        <h2 className="text-xl font-semibold text-foreground mb-4">Recent Activity</h2>
-        {recentEvents.length === 0 ? (
-          <TintedCard variant="accent">
-            <p className="text-foreground text-center py-4">
-              No recent medication events. Activity will appear here once medications are tracked.
-            </p>
-          </TintedCard>
-        ) : (
-          <div className="space-y-2">
-            {recentEvents.slice(0, 10).map((event) => {
-              const eventDate = new Date(event.event_date);
-              const dateStr = eventDate.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-              });
-
-              const statusConfig = {
-                taken: { icon: CheckCircle, variant: 'success' as const, label: 'Taken' },
-                skipped: { icon: AlertCircle, variant: 'warning' as const, label: 'Skipped' },
-                missed: { icon: XCircle, variant: 'destructive' as const, label: 'Missed' },
-              };
-
-              const config = statusConfig[event.status];
-              const Icon = config.icon;
-
-              return (
-                <TintedCard key={event.id} variant={config.variant}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Icon size={20} className="text-foreground" />
-                      <div>
-                        <p className="text-foreground font-medium">{config.label}</p>
-                        <p className="text-foreground text-sm opacity-70">{dateStr}</p>
-                      </div>
-                    </div>
-                  </div>
-                </TintedCard>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      {/* Safety Stream (Activity Feed) */}
+      <SafetyStream elderId={elderId} />
 
       {/* Medication Scanner */}
       {/* Removed embedded scanner to avoid duplication with dedicated route */}

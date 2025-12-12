@@ -35,3 +35,46 @@ You must use these specific technologies. Do not suggest alternatives unless exp
 1.  **Plan:** Briefly state which file you are creating/editing and why.
 2.  **Code:** Generate the code.
 3.  **Verify:** Ask the user to verify the render before moving to the next component.
+4.  
+# DOCUMENT MANAGEMENT (MANDATORY)
+
+## CRITICAL WORKFLOW REQUIREMENT
+**ALL code changes MUST be followed by documentation updates. This is NON-NEGOTIABLE.**
+
+### Before Starting Work
+1. **READ:** `Documents/preserved/PROJECT-SOURCE-OF-TRUTH.md` (entire document)
+2. **CHECK:** Related documentation files for context
+3. **UNDERSTAND:** Current status and what needs updating
+
+### After Completing Work
+1. **UPDATE:** `Documents/preserved/PROJECT-SOURCE-OF-TRUTH.md` with:
+   - Feature status (✅ Complete, ⏳ In Progress, etc.)
+   - Implementation details
+   - Updated timestamps using: `TZ='America/Indiana/Indianapolis' date '+%H:%M:%S %b %d, %Y'`
+2. **UPDATE:** Any relevant README files (e.g., `Documents/preserved/VIDEO-BRIDGE-README.md`)
+3. **VERIFY:** Timestamps are accurate and "Last Updated" fields are current
+
+### Completion Checklist (MANDATORY)
+Before claiming work is complete, verify:
+- [ ] Code implemented and tested
+- [ ] Build passes (`npm run build`)
+- [ ] Zero vulnerabilities (`npm audit`)
+- [ ] `PROJECT-SOURCE-OF-TRUTH.md` updated with current status
+- [ ] Relevant documentation files updated
+- [ ] All timestamps updated with current time
+- [ ] "Last Updated" fields reflect completion time
+
+### Document Rules (From User Rules)
+- **NO ORPHAN DOCUMENTS:** All `.md` files → `Documents/` folder
+- **TIMESTAMPS:** Format `HH:MM:SS MMM DD, YYYY` (Indiana Eastern Time)
+- **ACCURACY:** Check existing docs for conflicts before updating
+- **LIFECYCLE:** Only create docs if needed for action or long-term value
+
+### Updated BEHAVIORAL LOOP
+1. **Plan:** State which file(s) you are creating/editing and why. **Check existing documentation first.**
+2. **Code:** Generate the code.
+3. **Verify:** Test build and functionality.
+4. **Document:** Update `PROJECT-SOURCE-OF-TRUTH.md` and relevant README files with implementation details and timestamps.
+5. **Complete:** Verify completion checklist is satisfied.
+
+**VIOLATION:** Claiming completion without documentation updates = Incomplete work.

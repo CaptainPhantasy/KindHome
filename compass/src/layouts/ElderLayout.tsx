@@ -37,7 +37,7 @@ const ElderLayout = ({ children }: ElderLayoutProps) => {
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 h-24 bg-card border-t border-border shadow-lg">
+      <nav className="fixed bottom-0 left-0 right-0 h-24 bg-card border-t border-border shadow-card-depth" style={{ transform: 'translateZ(15px)' }}>
         <div className="flex h-full items-center justify-around px-4">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -50,7 +50,9 @@ const ElderLayout = ({ children }: ElderLayoutProps) => {
                 className={`
                   flex flex-col items-center justify-center
                   min-h-20 min-w-20 px-4 py-2
-                  rounded-lg transition-colors
+                  rounded-lg transition-all
+                  shadow-realistic
+                  active:scale-95
                   ${isActive 
                     ? 'bg-primary text-primary-foreground' 
                     : 'text-foreground hover:bg-muted'

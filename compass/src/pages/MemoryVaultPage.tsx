@@ -52,7 +52,7 @@ const MemoryVaultPage = () => {
             <MemoryInputWidget onSave={handleSaveMemory} />
           </div>
 
-          <section className="lg:col-span-7 h-full min-h-0 bg-card rounded-3xl shadow-sm border border-border flex flex-col overflow-hidden relative animate-fade-in">
+          <section className="lg:col-span-7 h-full min-h-0 bg-card rounded-3xl shadow-card-depth border border-border flex flex-col overflow-hidden relative animate-fade-in" style={{ transform: 'translateZ(15px)' }}>
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20" />
             <div className="flex-1 overflow-hidden">
               <MemoryList memories={memories} onDelete={handleDeleteMemory} />

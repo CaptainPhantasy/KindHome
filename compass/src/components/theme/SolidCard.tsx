@@ -29,10 +29,10 @@ export const SolidCard = ({ variant, children, className = '' }: SolidCardProps)
     destructive: 'bg-destructive text-destructive-foreground',
   };
   
-  const baseClasses = `${variantClasses[variant]} rounded-lg p-4`;
+  const baseClasses = `${variantClasses[variant]} rounded-lg p-4 shadow-card-depth`;
   
   return (
-    <div className={`${baseClasses} ${className}`}>
+    <div className={`${baseClasses} ${className}`} style={{ transform: 'translateZ(15px)' }}>
       {children}
     </div>
   );

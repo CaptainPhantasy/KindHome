@@ -204,7 +204,7 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
   // 1. SUCCESS STATE
   if (status === 'saved') {
     return (
-      <div className="h-full bg-card rounded-3xl shadow-xl flex flex-col items-center justify-center p-8 animate-fade-in text-center">
+      <div className="h-full bg-card rounded-3xl shadow-card-depth flex flex-col items-center justify-center p-8 animate-fade-in text-center" style={{ transform: 'translateZ(15px)' }}>
         <div className="h-24 w-24 rounded-full bg-primary/20 flex items-center justify-center animate-bounce-short mb-6">
           <CheckCircle className="w-12 h-12 text-primary" />
         </div>
@@ -214,7 +214,7 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
         <button
           type="button"
           onClick={handleReset}
-          className="h-16 px-8 bg-background text-foreground hover:bg-primary hover:text-primary-foreground rounded-2xl text-lg font-bold transition-all flex items-center space-x-2"
+          className="h-16 px-8 bg-background text-foreground hover:bg-primary hover:text-primary-foreground rounded-2xl text-lg font-bold transition-all flex items-center space-x-2 shadow-realistic active:scale-95"
         >
           <RotateCcw className="w-5 h-5" />
           <span>Capture Another</span>
@@ -226,7 +226,7 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
   // 2. PROCESSING / REVIEW STATE
   if (status === 'processing' || status === 'review') {
     return (
-      <div className="h-full bg-card rounded-3xl shadow-xl flex flex-col items-center justify-center p-8 animate-fade-in text-center relative overflow-hidden">
+      <div className="h-full bg-card rounded-3xl shadow-card-depth flex flex-col items-center justify-center p-8 animate-fade-in text-center relative overflow-hidden" style={{ transform: 'translateZ(15px)' }}>
         <div className="absolute inset-0 bg-primary/5 animate-pulse"></div>
 
         <Loader2 className="w-20 h-20 text-primary animate-spin mb-6 relative z-10" />
@@ -239,12 +239,12 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
   // 3. TEXT INPUT MODE (Fallback)
   if (showTextInput && !isListening) {
     return (
-      <div className="h-full bg-card rounded-3xl shadow-xl flex flex-col overflow-hidden relative transition-all">
+      <div className="h-full bg-card rounded-3xl shadow-card-depth flex flex-col overflow-hidden relative transition-all" style={{ transform: 'translateZ(15px)' }}>
         <div className="absolute top-4 right-4 z-30">
           <button
             type="button"
             onClick={() => setShowTextInput(false)}
-            className="p-3 bg-background rounded-xl text-foreground hover:bg-background/80"
+            className="p-3 bg-background rounded-xl text-foreground hover:bg-background/80 shadow-realistic active:scale-95 transition-all"
           >
             <X className="w-6 h-6" />
           </button>
@@ -264,7 +264,7 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
             type="button"
             onClick={() => handleStopAndTidy()}
             disabled={!inputText.trim()}
-            className="w-full h-20 bg-accent text-accent-foreground rounded-2xl text-xl font-bold hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-20 bg-accent text-accent-foreground rounded-2xl text-xl font-bold hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-realistic active:scale-95"
           >
             Tidy & Save
           </button>
@@ -275,13 +275,13 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
 
   // 4. MAIN LISTENING STATE
   return (
-    <div className="h-full bg-card rounded-3xl shadow-xl flex flex-col overflow-hidden relative transition-all">
+    <div className="h-full bg-card rounded-3xl shadow-card-depth flex flex-col overflow-hidden relative transition-all" style={{ transform: 'translateZ(15px)' }}>
       {!isListening && (
         <div className="absolute top-4 right-4 z-30">
           <button
             type="button"
             onClick={() => setShowTextInput(true)}
-            className="p-3 bg-background text-foreground rounded-xl hover:bg-background/80 transition-colors"
+            className="p-3 bg-background text-foreground rounded-xl hover:bg-background/80 transition-all shadow-realistic active:scale-95"
           >
             <Keyboard className="w-6 h-6" />
           </button>
@@ -307,8 +307,8 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
           type="button"
           onClick={toggleListening}
           className={`
-            relative z-20 h-48 w-48 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl
-            ${isListening ? 'bg-accent scale-110 shadow-accent/40' : 'bg-primary hover:bg-opacity-90 hover:scale-105 shadow-primary/30'}
+            relative z-20 h-48 w-48 rounded-full flex items-center justify-center transition-all duration-300 shadow-realistic active:scale-95
+            ${isListening ? 'bg-accent scale-110' : 'bg-primary hover:bg-opacity-90 hover:scale-105'}
           `}
         >
           {isListening ? (
@@ -349,7 +349,7 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
         </div>
 
         {activeError && (
-          <div className="absolute bottom-12 bg-destructive/80 backdrop-blur-sm text-destructive-foreground px-6 py-3 rounded-2xl flex items-center space-x-3 animate-fade-in z-30 shadow-sm border border-destructive max-w-[80%]">
+          <div className="absolute bottom-12 bg-destructive/80 backdrop-blur-sm text-destructive-foreground px-6 py-3 rounded-2xl flex items-center space-x-3 animate-fade-in z-30 shadow-realistic border border-destructive max-w-[80%]">
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
             <span className="text-base font-medium text-left">{activeError}</span>
           </div>
