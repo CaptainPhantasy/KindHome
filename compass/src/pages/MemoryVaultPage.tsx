@@ -1,22 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import MemoryInputWidget from '../components/MemoryInputWidget';
 import MemoryList from '../components/MemoryList';
 import type { MemoryRecord } from '../../types';
 
 const MemoryVaultPage = () => {
-  const [memories, setMemories] = useState<MemoryRecord[]>([]);
-
-  // Load memories from localStorage on mount
-  useEffect(() => {
+  const [memories, setMemories] = useState<MemoryRecord[]>(() => {
     const saved = localStorage.getItem('kind_home_memories');
     if (saved) {
       try {
-        setMemories(JSON.parse(saved));
+        return JSON.parse(saved) as MemoryRecord[];
       } catch (error) {
         console.error('Failed to parse memories', error);
       }
     }
-  }, []);
+    return [];
+  });
 
   const handleSaveMemory = (newMemory: MemoryRecord) => {
     const memoryWithMeta: MemoryRecord = {

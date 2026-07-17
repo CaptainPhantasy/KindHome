@@ -52,10 +52,15 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
   // Visual feedback for silence timer (optional, but helpful)
   const [silenceSeconds, setSilenceSeconds] = useState(0);
 
-  const [localError, setLocalError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return window.SpeechRecognition || window.webkitSpeechRecognition
+      ? null
+      : 'Voice not supported.';
+  });
 
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const lastSpeechTimeRef = useRef<number>(Date.now());
+  const lastSpeechTimeRef = useRef<number>(0);
   const pollingIntervalRef = useRef<number | null>(null);
 
   const { tidyMemory, saveMemory: triggerSaveState, reset, status, result, error: aiError } = useMemoryTidier();
@@ -73,7 +78,6 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
     if (status === 'review' && result) {
       onSave(result);
       triggerSaveState();
-      setInputText('');
     }
   }, [status, result, onSave, triggerSaveState]);
 
@@ -121,7 +125,6 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
       }, 500);
     } else {
       if (pollingIntervalRef.current) window.clearInterval(pollingIntervalRef.current);
-      setSilenceSeconds(0);
     }
     return () => {
       if (pollingIntervalRef.current) window.clearInterval(pollingIntervalRef.current);
@@ -171,8 +174,6 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
       };
 
       recognitionRef.current = recognition;
-    } else {
-      setLocalError('Voice not supported.');
     }
   }, []);
 
@@ -325,12 +326,15 @@ const MemoryInputWidget = ({ onSave }: MemoryInputWidgetProps) => {
               aria-hidden="true"
               focusable="false"
             >
-              <circle className="text-white/20" strokeWidth="4" stroke="currentColor" fill="transparent" r="48" cx="50" cy="50" />
+              <circle className="text-primary-foreground/20" strokeWidth="4" stroke="currentColor" fill="transparent" r="48" cx="50" cy="50" />
               <circle
-                className="text-white transition-all duration-500 ease-linear"
+                className="text-primary-foreground transition-all duration-500 ease-linear"
                 strokeWidth="4"
                 strokeDasharray={2 * Math.PI * 48}
-                strokeDashoffset={(2 * Math.PI * 48) * (1 - silenceSeconds / (SILENCE_THRESHOLD_MS / 1000))}
+                strokeDashoffset={
+                  (2 * Math.PI * 48) *
+                  (1 - (isListening ? silenceSeconds : 0) / (SILENCE_THRESHOLD_MS / 1000))
+                }
                 strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"

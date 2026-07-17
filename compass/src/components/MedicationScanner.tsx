@@ -148,7 +148,9 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
       <div className="flex flex-col min-h-screen bg-background p-6 pt-12">
         <div className="flex-1 flex flex-col items-center justify-center text-center">
           <div className={`w-32 h-32 rounded-full flex items-center justify-center mb-8 shadow-inner ${isSpeaking ? 'bg-primary animate-pulse' : 'bg-secondary'}`}>
-            <Volume2 className="w-16 h-16 text-white" />
+            <Volume2
+              className={`w-16 h-16 ${isSpeaking ? 'text-primary-foreground' : 'text-secondary-foreground'}`}
+            />
           </div>
           <h2 className="text-3xl font-bold text-foreground mb-6 leading-tight">{identificationData.description}</h2>
 
@@ -321,16 +323,18 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
 
   // ACTIVE SCANNING STATE
   return (
-    <div className="relative h-screen bg-black overflow-hidden flex flex-col">
-      <div className="absolute top-0 left-0 right-0 z-30 p-4 pt-6 bg-gradient-to-b from-black/80 to-transparent flex items-start justify-between">
+    <div className="relative h-screen bg-background overflow-hidden flex flex-col">
+      <div className="absolute top-0 left-0 right-0 z-30 p-4 pt-6 bg-gradient-to-b from-background/80 to-transparent flex items-start justify-between">
         {/* Mode Toggles (Left/Center) */}
         {!lockMode ? (
-          <div className="bg-white/20 backdrop-blur-md p-1 rounded-2xl flex max-w-sm flex-1 mr-4">
+          <div className="bg-card/20 backdrop-blur-md p-1 rounded-2xl flex max-w-sm flex-1 mr-4">
             <button
               type="button"
               onClick={() => setMode(ScannerMode.IDENTIFY)}
               className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-realistic active:scale-95 ${
-                mode === ScannerMode.IDENTIFY ? 'bg-secondary text-white' : 'text-white/80'
+                mode === ScannerMode.IDENTIFY
+                  ? 'bg-secondary text-secondary-foreground'
+                  : 'text-foreground/80'
               }`}
             >
               <ScanEye className="w-5 h-5" /> Identify
@@ -339,7 +343,9 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
               type="button"
               onClick={() => setMode(ScannerMode.MEDICATION)}
               className={`flex-1 py-3 px-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-realistic active:scale-95 ${
-                mode === ScannerMode.MEDICATION ? 'bg-primary text-white' : 'text-white/80'
+                mode === ScannerMode.MEDICATION
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground/80'
               }`}
             >
               <Pill className="w-5 h-5" /> Medicine
@@ -351,7 +357,7 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
         <button
           type="button"
           onClick={handleExit}
-          className="bg-black/40 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/60 active:scale-95 transition-all border border-white/10 shadow-realistic"
+          className="bg-background/40 backdrop-blur-md text-foreground p-3 rounded-full hover:bg-background/60 active:scale-95 transition-all border border-border/20 shadow-realistic"
           aria-label="Close Scanner"
         >
           <X className="w-8 h-8" />
@@ -366,18 +372,20 @@ export const MedicationScanner = ({ onSave, lockMode = false, defaultMode = Scan
               mode === ScannerMode.MEDICATION ? 'border-primary/60' : 'border-secondary/60'
             }`}
           ></div>
-          <p className="absolute top-1/4 mt-20 text-white text-xl font-medium drop-shadow-md text-center px-6">
+          <p className="absolute top-1/4 mt-20 text-foreground text-xl font-medium drop-shadow-md text-center px-6">
             {mode === ScannerMode.MEDICATION ? 'Center Label' : 'Show Item'}
           </p>
         </div>
       </div>
 
-      <div className="bg-background/90 backdrop-blur-md p-6 pb-8 rounded-t-3xl border-t border-white/10 relative z-20">
+      <div className="bg-background/90 backdrop-blur-md p-6 pb-8 rounded-t-3xl border-t border-border/20 relative z-20">
         <button
           type="button"
           onClick={captureAndAnalyze}
           className={`w-full h-24 text-2xl font-bold rounded-2xl shadow-realistic active:scale-95 transition-all flex items-center justify-center gap-3 ring-4 ${
-            mode === ScannerMode.MEDICATION ? 'bg-primary text-white ring-primary/20' : 'bg-secondary text-white ring-secondary/20'
+            mode === ScannerMode.MEDICATION
+              ? 'bg-primary text-primary-foreground ring-primary/20'
+              : 'bg-secondary text-secondary-foreground ring-secondary/20'
           }`}
         >
           <Camera className="w-8 h-8" />

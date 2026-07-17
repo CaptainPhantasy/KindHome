@@ -13,9 +13,7 @@ import * as React from "react"
 import { Button, type ButtonProps } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-interface ElderButtonProps extends ButtonProps {
-  // Add any custom props here if needed
-}
+type ElderButtonProps = ButtonProps
 
 const ElderButton = React.forwardRef<HTMLButtonElement, ElderButtonProps>(
   ({ className, ...props }, ref) => {

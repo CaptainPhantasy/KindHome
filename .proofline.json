@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "gates": [
+    {
+      "name": "kindhome-recovery-checks",
+      "command": [
+        "sh",
+        "-c",
+        "cd compass && npm ci && npm run lint && npm test -- --run && npm run build && npm audit --audit-level=high"
+      ],
+      "required": true
+    }
+  ],
+  "include": [
+    ".proofline.json",
+    "compass/package.json",
+    "compass/package-lock.json",
+    "compass/vitest.config.ts",
+    "compass/src/App.test.tsx",
+    "compass/src/components/MedicationScanner.tsx",
+    "compass/src/components/MemoryInputWidget.tsx",
+    "compass/src/components/VoiceCoachWidget.tsx",
+    "compass/src/components/ui/button.tsx",
+    "compass/src/components/ui/button.test.tsx",
+    "compass/src/components/ui/elder-button.tsx",
+    "compass/src/contexts/ThemeProvider.test.tsx",
+    "compass/src/features/elder/VideoPage.tsx",
+    "compass/src/pages/MemoryVaultPage.tsx",
+    "compass/src/test/setup.ts"
+  ],
+  "deny": [
+    ".env",
+    ".env.*",
+    "*.pem",
+    "*.key",
+    "node_modules/**",
+    ".git/**",
+    ".harness/**",
+    ".pi/**",
+    ".omp/**",
+    ".supercache/**"
+  ],
+  "baseBranch": "main",
+  "publish": true,
+  "allowLocalRemote": false
+}
