@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { Mic, AudioLines, Square, ThumbsUp, ThumbsDown, Info } from 'lucide-react';
 import { useVoiceAgent } from '../hooks/useVoiceAgent';
 import { AgentState } from '../../types';
@@ -6,28 +6,14 @@ import { AgentState } from '../../types';
 const VoiceCoachWidget = () => {
   const { state, lastTranscript, lastAgentResponse, error, connect, disconnect, interrupt } = useVoiceAgent();
 
-  const [showTutorial, setShowTutorial] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const previousState = useRef<AgentState>(AgentState.DISCONNECTED);
-
-  useEffect(() => {
-    const seenTutorial = localStorage.getItem('kind_home_tutorial_seen');
-    if (!seenTutorial) {
-      setShowTutorial(true);
-    }
-  }, []);
-
-  // Show feedback buttons when agent finishes speaking
-  useEffect(() => {
-    if (previousState.current === AgentState.SPEAKING && state === AgentState.LISTENING) {
-      setShowFeedback(true);
-    }
-    // If user starts speaking again or disconnects, hide feedback
-    if (state === AgentState.SPEAKING || state === AgentState.DISCONNECTED) {
-      setShowFeedback(false);
-    }
-    previousState.current = state;
-  }, [state]);
+  const [showTutorial, setShowTutorial] = useState(
+    () => localStorage.getItem('kind_home_tutorial_seen') === null
+  );
+  const [dismissedFeedback, setDismissedFeedback] = useState<string | null>(null);
+  const showFeedback =
+    state === AgentState.LISTENING &&
+    Boolean(lastAgentResponse) &&
+    dismissedFeedback !== lastAgentResponse;
 
   const dismissTutorial = () => {
     localStorage.setItem('kind_home_tutorial_seen', 'true');
@@ -43,7 +29,7 @@ const VoiceCoachWidget = () => {
       sentiment: isHelpful ? 'Helpful' : 'Not Helpful',
       transcript: lastAgentResponse,
     });
-    setShowFeedback(false);
+    setDismissedFeedback(lastAgentResponse);
   };
 
   const handleMainButton = () => {

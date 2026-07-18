@@ -28,8 +28,10 @@ const ElderVideoControlsWithRoom = ({ isDevMode }: ElderVideoControlsProps) => {
   const participants = useParticipants();
   const cameraTracks = useTracks([Track.Source.Camera]);
 
-  const [isMicEnabled, setIsMicEnabled] = useState(true);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
+  const micPublication = Array.from(localParticipant?.audioTrackPublications.values() ?? [])[0];
+  const videoPublication = Array.from(localParticipant?.videoTrackPublications.values() ?? [])[0];
+  const isMicEnabled = micPublication?.isMuted === false;
+  const isVideoEnabled = videoPublication?.isMuted === false;
 
   // Auto-answer: Listen for participants joining (incoming calls)
   useEffect(() => {
@@ -54,22 +56,11 @@ const ElderVideoControlsWithRoom = ({ isDevMode }: ElderVideoControlsProps) => {
     };
   }, [room]);
 
-  // Update mic/video state based on actual track state
-  useEffect(() => {
-    if (localParticipant) {
-      const micPub = Array.from(localParticipant.audioTrackPublications.values())[0];
-      const videoPub = Array.from(localParticipant.videoTrackPublications.values())[0];
-      setIsMicEnabled(micPub?.isMuted === false);
-      setIsVideoEnabled(videoPub?.isMuted === false);
-    }
-  }, [localParticipant]);
-
   const toggleMic = async () => {
     if (!localParticipant) return;
     
     const enabled = !isMicEnabled;
     await localParticipant.setMicrophoneEnabled(enabled);
-    setIsMicEnabled(enabled);
   };
 
   const toggleVideo = async () => {
@@ -77,7 +68,6 @@ const ElderVideoControlsWithRoom = ({ isDevMode }: ElderVideoControlsProps) => {
     
     const enabled = !isVideoEnabled;
     await localParticipant.setCameraEnabled(enabled);
-    setIsVideoEnabled(enabled);
   };
 
   const handleEndCall = () => {
@@ -236,7 +226,7 @@ const VideoPage = () => {
   const publicIdParam = searchParams.get('publicId');
 
   useEffect(() => {
-    if (!import.meta.env.VITE_LIVEKIT_URL) {
+    if (!livekitUrl) {
       setError('Video service not configured');
       setIsLoading(false);
       return;
@@ -282,8 +272,7 @@ const VideoPage = () => {
     };
 
     initializeVideo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [publicIdParam]);
+  }, [livekitUrl, publicIdParam]);
 
   // Loading state
   if (isLoading) {
@@ -334,4 +323,3 @@ const VideoPage = () => {
 };
 
 export default VideoPage;
-
